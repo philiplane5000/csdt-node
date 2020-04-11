@@ -1,4 +1,4 @@
-## CSDT-PROMPT
+## CSDT-NODE
 
 ## Commands
 Import | Export | Listds | Listcs
