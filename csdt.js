@@ -66,7 +66,6 @@ inquirer
     console.log(err);
   });
 
-
 function runCSDT(options) {
   exec(
     `${process.env.JAVA_PATH_WINDOWS} -Dfile.encoding=UTF-8 -Xbootclasspath/a:lib/servlet-api.jar -jar developer-tools-command-line-12.2.1.2.0.jar http://${process.env.WCS_ENV}:80/sites/ContentServer username=${process.env.WCS_USERNAME} password=${process.env.WCS_PASSWORD} resources=${options.resource}:${options.id} cmd=${options.command} datastore=${process.env.WCS_DATASTORE}`,
@@ -83,5 +82,3 @@ function runCSDT(options) {
     }
   );
 }
-
-
