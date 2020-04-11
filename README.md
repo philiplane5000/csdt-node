@@ -1,10 +1,15 @@
 ## CSDT-NODE
+- Content Server Development Tools for Node.js
 
 ## Commands
 Import | Export | Listds | Listcs
+* `export` => pull assets from WCS instance
+* `import` => push assets to WCS instance
+* `listds` => list data store
+* `listcs` => list content store
 
-## Requirements
-* Node.js > 10.20.0
+## System Requirements
+* Node.js >= v10.15.0
 * Java 8 (v1.8.0_211)
 * developer-tools-command-line.jar (csdt-cli)
 * /lib => 
