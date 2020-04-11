@@ -1,0 +1,15 @@
+{
+  "name": "csdt-prompt",
+  "version": "1.0.0",
+  "description": "Content Server Development CLI Prompt",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "PTD",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "inquirer": "^7.1.0"
+  }
+}
