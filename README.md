@@ -31,8 +31,8 @@ Import | Export | Listds | Listcs
   - spring-core.jar
 
 ## .env
-JAVA_PATH_WINDOWS=<>
-WCS_USERNAME=<>
-WCS_PASSWORD=<>
-WCS_ENV=<>
-WCS_DATASTORE=<>
+* JAVA_PATH_WINDOWS=<>
+* WCS_USERNAME=<>
+* WCS_PASSWORD=<>
+* WCS_ENV=<>
+* WCS_DATASTORE=<>
