@@ -1,5 +1,5 @@
 {
-  "name": "csdt-prompt",
+  "name": "csdt-node",
   "version": "1.0.0",
   "description": "Content Server Development CLI Prompt",
   "main": "app.js",
