@@ -1,19 +1,16 @@
 const csv = require("csvtojson/v1");
-// const csvFilePath = "csv/release.csv";
 
 const parser = {
   getResourceStr: async () => {
     try {
       let resourcesStr = "";
       const resObj = await parser.getResourceObj();
-
       let resArr = Array.from(resObj);
-      //
       for (key in resObj) {
         // key = assettype
         resourcesStr += `${key}:`;
-        resObj[key].forEach((cid, i, arr) => {
-          resourcesStr += i !== arr.length - 1 ? `${cid},` : `${cid};`;
+        resObj[key].forEach((id, i, arr) => {
+          resourcesStr += i !== arr.length - 1 ? `${id},` : `${id};`;
         });
       }
       return resourcesStr;
@@ -33,7 +30,7 @@ const parser = {
       }
 
       for (const asset of assets) {
-        resourcesObj[asset.assettype].push(asset.cid);
+        resourcesObj[asset.assettype].push(asset.id);
       }
 
       return resourcesObj;

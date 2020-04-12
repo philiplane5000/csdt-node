@@ -1,6 +1,5 @@
-developer-tools-command-line-12.2.1.2.0.jar
-lib/*
-csv/*
+*.jar
+*.csv
 node_modules
 java8
 .env
