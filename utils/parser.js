@@ -1,11 +1,10 @@
-const csvFilePath='csv/release.csv';
-const csv = require('csvtojson/v1');
+const csv = require("csvtojson/v1");
+// const csvFilePath = "csv/release.csv";
 
 const parser = {
-
   getResourceStr: async () => {
     try {
-      let resourcesStr = '';
+      let resourcesStr = "";
       const resObj = await parser.getResourceObj();
 
       let resArr = Array.from(resObj);
@@ -14,8 +13,8 @@ const parser = {
         // key = assettype
         resourcesStr += `${key}:`;
         resObj[key].forEach((cid, i, arr) => {
-          resourcesStr += (i !== arr.length -1) ? `${cid},` : `${cid};`
-        })
+          resourcesStr += i !== arr.length - 1 ? `${cid},` : `${cid};`;
+        });
       }
       return resourcesStr;
     } catch (err) {
@@ -27,7 +26,7 @@ const parser = {
     try {
       let resourcesObj = new Object();
       const assets = await parser.parseCSV();
-      let unique = new Set(assets.map(asset => asset.assettype ))
+      let unique = new Set(assets.map((asset) => asset.assettype));
 
       for (const assettype of unique) {
         resourcesObj[assettype] = new Array();
@@ -38,9 +37,8 @@ const parser = {
       }
 
       return resourcesObj;
-
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
   },
 
@@ -48,20 +46,18 @@ const parser = {
     return new Promise((resolve, reject) => {
       let parsed = [];
       csv()
-        .fromFile(csvFilePath)
-        .on('json',(jsonObj)=>{
-          parsed.push(jsonObj)
+        .fromFile(process.env.CSV_FILEPATH)
+        .on("json", (jsonObj) => {
+          parsed.push(jsonObj);
         })
-        .on('done',(err)=>{
-          if(!err) {
-            resolve(parsed)
+        .on("done", (err) => {
+          if (!err) {
+            resolve(parsed);
           }
-          reject(err)
-        })
-    })
-  }
-
-}
+          reject(err);
+        });
+    });
+  },
+};
 
 module.exports = parser;
-
