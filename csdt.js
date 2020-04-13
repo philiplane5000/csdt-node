@@ -153,9 +153,9 @@ function confirmCommand(options) {
   // introduce validation of 'fw-uid' for import and 'cid' for export||listds||listcs
   let cmd;
   if (options.method.startsWith("Read")) {
-    cmd = `${(process.env.JAVA_PATH_WINDOWS) ? process.env.JAVA_PATH_WINDOWS : 'java'}  -Dfile.encoding=UTF-8 -Xbootclasspath/a:lib/servlet-api.jar -jar ${process.env.DEV_TOOLS_COMMAND_LINE_JAR} http://${process.env.WCS_ENV}:80/sites/ContentServer username=${process.env.WCS_USERNAME} password=${process.env.WCS_PASSWORD} resources=${options.resources} cmd=${options.command} datastore=${process.env.WCS_DATASTORE}`;
+    cmd = `${(process.env.PATH_JAVA_8) ? process.env.JAVA_PATH_WINDOWS : 'java'}  -Dfile.encoding=UTF-8 -Xbootclasspath/a:lib/servlet-api.jar -jar ${process.env.PATH_DEV_TOOLS_COMMAND_LINE_JAR} http://${process.env.WCS_ENV}:80/sites/ContentServer username=${process.env.WCS_USERNAME} password=${process.env.WCS_PASSWORD} resources=${options.resources} cmd=${options.command} datastore=${process.env.WCS_DATASTORE}`;
   } else {
-    cmd = `${(process.env.JAVA_PATH_WINDOWS) ? process.env.JAVA_PATH_WINDOWS : 'java'} -Dfile.encoding=UTF-8 -Xbootclasspath/a:lib/servlet-api.jar -jar ${process.env.DEV_TOOLS_COMMAND_LINE_JAR} http://${process.env.WCS_ENV}:80/sites/ContentServer username=${process.env.WCS_USERNAME} password=${process.env.WCS_PASSWORD} resources=${options.assetType}:${options.id} cmd=${options.command} datastore=${process.env.WCS_DATASTORE}`;
+    cmd = `${(process.env.PATH_JAVA_8) ? process.env.JAVA_PATH_WINDOWS : 'java'} -Dfile.encoding=UTF-8 -Xbootclasspath/a:lib/servlet-api.jar -jar ${process.env.PATH_DEV_TOOLS_COMMAND_LINE_JAR} http://${process.env.WCS_ENV}:80/sites/ContentServer username=${process.env.WCS_USERNAME} password=${process.env.WCS_PASSWORD} resources=${options.assetType}:${options.id} cmd=${options.command} datastore=${process.env.WCS_DATASTORE}`;
   }
 
   inquirer
