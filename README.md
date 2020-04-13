@@ -38,6 +38,6 @@ Import | Export | Listds | Listcs
 * WCS_DATASTORE=<>
 
 ## About Oracle CSDT
-[LINK](https://kksays.wordpress.com/2015/03/20/export-using-csdt-command-line-tool-in-oracle-webcenter-sites-fatwire/)
-[LINK](https://manifesto.co.uk/getting-started-content-server-developer-tools/)
-[ORACLE-DOCS](https://docs.oracle.com/middleware/12211/wcs/develop/GUID-D80810CF-4CA1-4CE6-8533-571F6F65462C.htm#WBCSD995)
+- [LINK](https://kksays.wordpress.com/2015/03/20/export-using-csdt-command-line-tool-in-oracle-webcenter-sites-fatwire/)
+- [LINK](https://manifesto.co.uk/getting-started-content-server-developer-tools/)
+- [ORACLE-DOCS](https://docs.oracle.com/middleware/12211/wcs/develop/GUID-D80810CF-4CA1-4CE6-8533-571F6F65462C.htm#WBCSD995)
