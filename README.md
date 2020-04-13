@@ -30,12 +30,12 @@ Import | Export | Listds | Listcs
   - sites-sso-oam-impl.jar
   - spring-core.jar
 
-## .env
-* JAVA_PATH_WINDOWS=<>
-* WCS_USERNAME=<>
-* WCS_PASSWORD=<>
-* WCS_ENV=<>
-* WCS_DATASTORE=<>
+## .env (eg)
+* JAVA_PATH_WINDOWS=C:\Java\\jdk1.8.0_211\\bin\\java
+* WCS_USERNAME=fwadmin
+* WCS_PASSWORD=xceladmin
+* WCS_ENV=wcs-qa
+* WCS_DATASTORE=cs_workspace
 
 ## About Oracle CSDT
 - [LINK](https://kksays.wordpress.com/2015/03/20/export-using-csdt-command-line-tool-in-oracle-webcenter-sites-fatwire/)
