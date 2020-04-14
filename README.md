@@ -8,10 +8,9 @@ Oracle provides the Content Server Development Tools (CSDT) to provide WebCenter
 
 #### Installation
 1) Unzip the `developer-tools-command-line-x.y.z.zip` file, which is located in the clients folder in your WebCenter Sites installation directory (${Oracle Home}/wcsites/clients) Move the jar file into the root of this application and assign the full jar file name to `PATH_DEV_TOOLS_COMMAND_LINE_JAR` in `.env`
-2) Create `.env` file in the root of this application and assign all applicable `.env` values referencing the example below. 
-  - IMPORTANT: The WCS user credentials must be for a member of the `RESTADMIN` group.
+2) Create `.env` file in the root of this application and assign all applicable `.env` values referencing the example below. *IMPORTANT:* The WCS user must be a member of the `RESTADMIN` group.
 2) Create a `/lib` directory locally and copy all the neccessary Java EE libraries into it.
-3) *OPTIONAL* Create a `/csv` directory if you plan to use the `Read CSV` feature to run batch commands on groups of assets
+3) *OPTIONAL* Create a `/csv` directory if you plan to use the `Read CSV` feature to run batch commands on groups of assets.
 4) Ensure all system requirements are fulfilled. If you already have `Java SE Development Kit 8` installed, ensure your `PATH_JDK_8` is pointing to the absolute path of the java binary, for example on WINDOWS: `C:\Java\\jdk1.8.0_211\\bin\\java` If not, you need to download the JDK stat because the CLI doesn't support any other version.
 5) Run command `node csdt.js` and the app will walk you through executing your first `import/export/listds/listcs` command! 
 
