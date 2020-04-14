@@ -4,44 +4,48 @@ const { exec } = require("child_process");
 const parser = require("./utils/parser.js");
 const options = {};
 
-inquirer
-  .prompt([
-    {
-      message: "SELECT A CSDT COMMAND:",
-      type: "list",
-      name: "command",
-      choices: [
-        new inquirer.Separator(),
-        "export",
-        "import",
-        new inquirer.Separator(),
-        "listds",
-        "listcs",
-        new inquirer.Separator(),
-      ],
-    },
-  ])
-  .then((selection) => {
-    options.command = selection.command;
-    inquirer
-      .prompt([
-        {
-          message: "METHOD:",
-          type: "list",
-          name: "method",
-          choices: ["Follow Prompts", "Read CSV"],
-        },
-      ])
-      .then((selection) => {
-        options.method = selection.method;
-        if (selection.method.startsWith("Read")) processCSV(options);
-        else processManual(options);
-      });
-  })
-  .catch((err) => {
-    console.log("something went wrong");
-    console.log(err);
-  });
+csdtnode();
+
+function csdtnode() {
+  inquirer
+    .prompt([
+      {
+        message: "SELECT A CSDT COMMAND:",
+        type: "list",
+        name: "command",
+        choices: [
+          new inquirer.Separator(),
+          "export",
+          "import",
+          new inquirer.Separator(),
+          "listds",
+          "listcs",
+          new inquirer.Separator(),
+        ],
+      },
+    ])
+    .then((selection) => {
+      options.command = selection.command;
+      inquirer
+        .prompt([
+          {
+            message: "METHOD:",
+            type: "list",
+            name: "method",
+            choices: ["Follow Prompts", "Read CSV"],
+          },
+        ])
+        .then((selection) => {
+          options.method = selection.method;
+          if (selection.method.startsWith("Read")) processCSV(options);
+          else processManual(options);
+        });
+    })
+    .catch((err) => {
+      console.log("something went wrong");
+      console.log(err);
+    });
+}
 
 function processManual(options) {
   options.idType = options.command === "import" ? "fw-uid" : "cid";
@@ -125,32 +129,6 @@ function processManual(options) {
     });
 }
 
-function confirmCommand(options) {
-  // introduce validation of 'fw-uid' for import and 'cid' for export||listds||listcs
-  let cmd;
-  if (options.method.startsWith("Read")) {
-    cmd = `${(process.env.PATH_JDK_8) ? process.env.PATH_JDK_8 : 'java'}  -Dfile.encoding=UTF-8 -Xbootclasspath/a:lib/servlet-api.jar -jar ${process.env.PATH_DEV_TOOLS_COMMAND_LINE_JAR} http://${process.env.WCS_ENV}:80/sites/ContentServer username=${process.env.WCS_USERNAME} password=${process.env.WCS_PASSWORD} resources=${options.resources} cmd=${options.command} datastore=${process.env.WCS_DATASTORE}`;
-  } else {
-    cmd = `${(process.env.PATH_JDK_8) ? process.env.PATH_JDK_8 : 'java'} -Dfile.encoding=UTF-8 -Xbootclasspath/a:lib/servlet-api.jar -jar ${process.env.PATH_DEV_TOOLS_COMMAND_LINE_JAR} http://${process.env.WCS_ENV}:80/sites/ContentServer username=${process.env.WCS_USERNAME} password=${process.env.WCS_PASSWORD} resources=${options.assetType}:${options.id} cmd=${options.command} datastore=${process.env.WCS_DATASTORE}`;
-  }
-
-  inquirer
-    .prompt([
-      {
-        message: `RUN CSDT COMMAND: \n"${cmd}"\n`,
-        type: "confirm",
-        name: "exe",
-      },
-    ])
-    .then((selection) => {
-      if (selection.exe) {
-        runCSDT(cmd);
-      } else {
-        console.log("ABORT!");
-      }
-    });
-}
-
 function processCSV(options) {
   inquirer
     .prompt([
@@ -176,9 +154,35 @@ function processCSV(options) {
     });
 }
 
-function runCSDT(cmd) {
+function confirmCommand(options) {
+  // introduce validation of 'fw-uid' for import and 'cid' for export||listds||listcs
+  let cmd;
+  if (options.method.startsWith("Read")) {
+    cmd = `${(process.env.PATH_JDK_8) ? process.env.PATH_JDK_8 : 'java'}  -Dfile.encoding=UTF-8 -Xbootclasspath/a:lib/servlet-api.jar -jar ${process.env.PATH_DEV_TOOLS_COMMAND_LINE_JAR} http://${process.env.WCS_ENV}:80/sites/ContentServer username=${process.env.WCS_USERNAME} password=${process.env.WCS_PASSWORD} resources=${options.resources} cmd=${options.command} datastore=${process.env.WCS_DATASTORE}`;
+  } else {
+    cmd = `${(process.env.PATH_JDK_8) ? process.env.PATH_JDK_8 : 'java'} -Dfile.encoding=UTF-8 -Xbootclasspath/a:lib/servlet-api.jar -jar ${process.env.PATH_DEV_TOOLS_COMMAND_LINE_JAR} http://${process.env.WCS_ENV}:80/sites/ContentServer username=${process.env.WCS_USERNAME} password=${process.env.WCS_PASSWORD} resources=${options.assetType}:${options.id} cmd=${options.command} datastore=${process.env.WCS_DATASTORE}`;
+  }
+
+  inquirer
+    .prompt([
+      {
+        message: `RUN CSDT COMMAND: \n"${cmd}"\n`,
+        type: "confirm",
+        name: "exe",
+      },
+    ])
+    .then((selection) => {
+      if (selection.exe) {
+        execCSDT(cmd);
+      } else {
+        console.log("ABORT!");
+      }
+    });
+}
+
+function execCSDT(cmd) {
   console.log("************RESULTS:********************");
-  exec(cmd, { maxBuffer: 1024 * 7500}, (error, stdout, stderr) => {
+  exec(cmd, { maxBuffer: 1024 * 7500 }, (error, stdout, stderr) => {
     if (error) {
       console.log(`error: ${error.message}`);
       console.log("****************************************\n");
