@@ -1,7 +1,7 @@
-# CSDT-NODE
+## CSDT-NODE
 - Content Server Development Tools for Node.js
 
-## About
+#### About
 Oracle provides the Content Server Development Tools (CSDT) to provide WebCenter Sites developers the ability to import and export assets from one environment to another, such as from DEV to UAT, etc. The CSDT package includes both a CLI as well as an eclipse plug-in, the CLI being the tool for which CSDT-NODE is developed, namely, to help WCS developers easily construct and excecute import or export commands and log the output of operations when they have completed. Provided you have unpackaged the CSDT tools and extracted `developer-tools-command-line.x.y.z`, included the neccessary Java EE libraries (see list below) into a root directory `/lib` running the command `node csdt.js` will take you through a series of prompts to construct the appropriate CSDT CLI command, execute the command and log the output!
 
 *(VID)*
@@ -14,14 +14,21 @@ Oracle provides the Content Server Development Tools (CSDT) to provide WebCenter
 4) Ensure all system requirements are fulfilled. If you already have `Java SE Development Kit 8` installed, ensure your `PATH_JDK_8` is pointing to the absolute path of the java binary, for example on WINDOWS: `C:\Java\\jdk1.8.0_211\\bin\\java` If not, you need to download the JDK stat because the CLI doesn't support any other version.
 5) Run command `node csdt.js` and the app will walk you through executing your first `import/export/listds/listcs` command! 
 
-## Commands Summary
+#### Commands Summary
 Import | Export | Listds | Listcs
 * `export` => pull assets from WCS instance into datastore
 * `import` => push assets to WCS instance from datastore
 * `listds` => list assets specified in datastore
 * `listcs` => list assets specified in content store
 
-## System Requirements
+#### .env (eg)
+* JAVA_PATH_WINDOWS=C:\Java\\jdk1.8.0_211\\bin\\java
+* WCS_USERNAME=fwadmin (Must be a member of the RestAdmin group)
+* WCS_PASSWORD=xceladmin (Must be a member of the RestAdmin group)
+* WCS_ENV=wcs-uat
+* WCS_DATASTORE=cs_workspace (The default workspace if you don't specify otherwise)
+
+#### System Requirements
 * Node.js >= v10.15.0
 * Java SE Development Kit 8 (v1.8.0_211)
 * developer-tools-command-line.jar (csdt-cli)
@@ -43,14 +50,7 @@ Import | Export | Listds | Listcs
   - sites-sso-oam-impl.jar
   - spring-core.jar
 
-## .env (eg)
-* JAVA_PATH_WINDOWS=C:\Java\\jdk1.8.0_211\\bin\\java
-* WCS_USERNAME=fwadmin (Must be a member of the RestAdmin group)
-* WCS_PASSWORD=xceladmin (Must be a member of the RestAdmin group)
-* WCS_ENV=wcs-uat
-* WCS_DATASTORE=cs_workspace (The default workspace if you don't specify otherwise)
-
-## Other Guides & Resources
+#### Other Guides & Resources
 - [ORACLE-DOCS](https://docs.oracle.com/middleware/12211/wcs/develop/GUID-D80810CF-4CA1-4CE6-8533-571F6F65462C.htm#WBCSD995)
 - [LINK](https://kksays.wordpress.com/2015/03/20/export-using-csdt-command-line-tool-in-oracle-webcenter-sites-fatwire/)
 - [LINK](https://manifesto.co.uk/getting-started-content-server-developer-tools/)
