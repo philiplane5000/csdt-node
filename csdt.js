@@ -125,32 +125,6 @@ function processManual(options) {
     });
 }
 
-function processCSV(options) {
-  console.log(`CSV process`);
-  inquirer
-    .prompt([
-      {
-        message: "Enter CSV filename:",
-        type: "input",
-        name: "filename",
-      },
-    ])
-    .then((selection) => {
-      // RegEx to remove/add .csv extension
-      let filepath = "";
-      if (!selection.filename.startsWith("csv/")) filepath += "csv/";
-      filepath += selection.filename;
-      if (!filepath.endsWith(".csv")) filepath += ".csv";
-      /* *************************************** */
-      process.env.CSV_FILEPATH = filepath;
-      /* *************************************** */
-      parser.getResourceStr().then((resString) => {
-        options.resources = resString;
-        confirmCommand(options);
-      });
-    });
-}
-
 function confirmCommand(options) {
   // introduce validation of 'fw-uid' for import and 'cid' for export||listds||listcs
   let cmd;
@@ -177,9 +151,34 @@ function confirmCommand(options) {
     });
 }
 
+function processCSV(options) {
+  inquirer
+    .prompt([
+      {
+        message: "Enter CSV filename:",
+        type: "input",
+        name: "filename",
+      },
+    ])
+    .then((selection) => {
+      // RegEx to remove/add .csv extension
+      let filepath = "";
+      if (!selection.filename.startsWith("csv/")) filepath += "csv/";
+      filepath += selection.filename;
+      if (!filepath.endsWith(".csv")) filepath += ".csv";
+      /* *************************************** */
+      process.env.CSV_FILEPATH = filepath;
+      /* *************************************** */
+      parser.getResourceStr().then((resString) => {
+        options.resources = resString;
+        confirmCommand(options);
+      });
+    });
+}
+
 function runCSDT(cmd) {
   console.log("************RESULTS:********************");
-  exec(cmd, {maxBuffer: 1024 * 100 * 100}, (error, stdout, stderr) => {
+  exec(cmd, { maxBuffer: 1024 * 7500}, (error, stdout, stderr) => {
     if (error) {
       console.log(`error: ${error.message}`);
       console.log("****************************************\n");
