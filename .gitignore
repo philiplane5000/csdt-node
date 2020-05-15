@@ -1,6 +1,7 @@
-*.jar
-*.csv
 node_modules
 java8
+*.jar
+*.csv
+.vscode
 .env
 .replit

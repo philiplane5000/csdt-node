@@ -7,7 +7,22 @@ const options = {};
 csdtnode();
 
 function csdtnode() {
-  inquirer
+  inquirer.prompt([
+    {
+      message: "WCS ENVIRONMENT:",
+      type: "list",
+      name: "environment",
+      choices: [
+        new inquirer.Separator(),
+        "wcs-mob",
+        "wcs-prod",
+        "wcs-qa",
+        new inquirer.Separator(),
+      ]
+    }
+  ]).then((selection) => {
+    options.env = selection.environment;
+    inquirer
     .prompt([
       {
         message: "SELECT A CSDT COMMAND:",
@@ -41,10 +56,10 @@ function csdtnode() {
           else processManual(options);
         });
     })
-    .catch((err) => {
-      console.log("something went wrong");
-      console.log(err);
-    });
+  }).catch((err) => {
+    console.log("something went wrong");
+    console.log(err);
+  });
 }
 
 function processManual(options) {
@@ -158,9 +173,9 @@ function confirmCommand(options) {
   // introduce validation of 'fw-uid' for import and 'cid' for export||listds||listcs
   let cmd;
   if (options.method.startsWith("Read")) {
-    cmd = `${(process.env.PATH_JDK_8) ? process.env.PATH_JDK_8 : 'java'}  -Dfile.encoding=UTF-8 -Xbootclasspath/a:lib/servlet-api.jar -jar ${process.env.PATH_DEV_TOOLS_COMMAND_LINE_JAR} http://${process.env.WCS_ENV}:80/sites/ContentServer username=${process.env.WCS_USERNAME} password=${process.env.WCS_PASSWORD} resources=${options.resources} cmd=${options.command} datastore=${process.env.WCS_DATASTORE}`;
+    cmd = `${(process.env.PATH_JDK_8) ? process.env.PATH_JDK_8 : 'java'}  -Dfile.encoding=UTF-8 -Xbootclasspath/a:lib/servlet-api.jar -jar ${process.env.PATH_DEV_TOOLS_COMMAND_LINE_JAR} http://${options.env}:80/sites/ContentServer username=${process.env.WCS_USERNAME} password=${process.env.WCS_PASSWORD} resources=${options.resources} cmd=${options.command} datastore=${process.env.WCS_DATASTORE}`;
   } else {
-    cmd = `${(process.env.PATH_JDK_8) ? process.env.PATH_JDK_8 : 'java'} -Dfile.encoding=UTF-8 -Xbootclasspath/a:lib/servlet-api.jar -jar ${process.env.PATH_DEV_TOOLS_COMMAND_LINE_JAR} http://${process.env.WCS_ENV}:80/sites/ContentServer username=${process.env.WCS_USERNAME} password=${process.env.WCS_PASSWORD} resources=${options.assetType}:${options.id} cmd=${options.command} datastore=${process.env.WCS_DATASTORE}`;
+    cmd = `${(process.env.PATH_JDK_8) ? process.env.PATH_JDK_8 : 'java'} -Dfile.encoding=UTF-8 -Xbootclasspath/a:lib/servlet-api.jar -jar ${process.env.PATH_DEV_TOOLS_COMMAND_LINE_JAR} http://${options.env}:80/sites/ContentServer username=${process.env.WCS_USERNAME} password=${process.env.WCS_PASSWORD} resources=${options.assetType}:${options.id} cmd=${options.command} datastore=${process.env.WCS_DATASTORE}`;
   }
 
   inquirer
