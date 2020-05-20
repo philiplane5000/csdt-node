@@ -11,8 +11,8 @@ Oracle provides the Content Server Development Tools (CSDT) to provide WebCenter
 2) Create `.env` file in the root of this application and assign all applicable `.env` values referencing the example below. *IMPORTANT:* The WCS user must be a member of the `RESTADMIN` group.
 2) Create a `/lib` directory locally and copy all the neccessary Java EE libraries into it.
 3) *OPTIONAL* Create a `/csv` directory if you plan to use the `Read CSV` feature to run batch commands on groups of assets.
-4) Ensure all system requirements are fulfilled. If you already have `Java SE Development Kit 8` installed, ensure your `PATH_JDK_8` is pointing to the absolute path of the java binary, for example on WINDOWS: `C:\Java\\jdk1.8.0_211\\bin\\java` If not, you need to download the JDK stat because the CLI doesn't support any other version.
-5) Run command `node csdt.js` and the app will walk you through executing your first `import/export/listds/listcs` command! 
+4) Ensure all system requirements are fulfilled. If you already have `Java SE Development Kit 8` installed, ensure the `PATH_JDK_8` (in your local `.env` file) is pointing to the absolute path of the java binary, for example on WINDOWS: `C:\Java\\jdk1.8.0_211\\bin\\java`
+5) Run command `node csdt.js` and the app will walk you through executing your first `import || export || listds || listcs` command! 
 
 #### Commands Summary
 Import | Export | Listds | Listcs
@@ -22,7 +22,8 @@ Import | Export | Listds | Listcs
 * `listcs` => list assets specified in content store
 
 #### .env (eg)
-* JAVA_PATH_WINDOWS=C:\Java\\jdk1.8.0_211\\bin\\java
+* PATH_JDK_8=C:\Java\\jdk1.8.0_211\\bin\\java
+* PATH_DEV_TOOLS_COMMAND_LINE_JAR=developer-tools-command-line.jar
 * WCS_USERNAME=fwadmin (Must be a member of the RestAdmin group)
 * WCS_PASSWORD=xceladmin (Must be a member of the RestAdmin group)
 * WCS_ENV=wcs-uat
