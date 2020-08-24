@@ -7,59 +7,62 @@ const options = {};
 csdtnode();
 
 function csdtnode() {
-  inquirer.prompt([
-    {
-      message: "WCS ENVIRONMENT:",
-      type: "list",
-      name: "environment",
-      choices: [
-        new inquirer.Separator(),
-        "wcs-mob",
-        "wcs-prod",
-        "wcs-qa",
-        new inquirer.Separator(),
-      ]
-    }
-  ]).then((selection) => {
-    options.env = selection.environment;
-    inquirer
+  inquirer
     .prompt([
       {
-        message: "SELECT A CSDT COMMAND:",
+        message: "WCS ENVIRONMENT:",
         type: "list",
-        name: "command",
+        name: "environment",
         choices: [
           new inquirer.Separator(),
-          "export",
-          "import",
-          new inquirer.Separator(),
-          "listds",
-          "listcs",
+          "wcs-mob",
+          "wcs-prod",
+          "wcs-qa",
           new inquirer.Separator(),
         ],
       },
     ])
     .then((selection) => {
-      options.command = selection.command;
+      options.env = selection.environment;
       inquirer
         .prompt([
           {
-            message: "METHOD:",
+            message: "SELECT A CSDT COMMAND:",
             type: "list",
-            name: "method",
-            choices: ["Follow Prompts", "Read CSV"],
+            name: "command",
+            choices: [
+              new inquirer.Separator(),
+              "export",
+              "import",
+              new inquirer.Separator(),
+              "listds",
+              "listcs",
+              new inquirer.Separator(),
+            ],
           },
         ])
         .then((selection) => {
-          options.method = selection.method;
-          if (selection.method.startsWith("Read")) processCSV(options);
-          else processManual(options);
+          options.command = selection.command;
+          inquirer
+            .prompt([
+              {
+                message: "METHOD:",
+                type: "list",
+                name: "method",
+                choices: ["Follow Prompts", "Read CSV"],
+              },
+            ])
+            .then((selection) => {
+              options.method = selection.method;
+              if (selection.method.startsWith("Read")) processCSV(options);
+              else processManual(options);
+            });
         });
     })
-  }).catch((err) => {
-    console.log("something went wrong");
-    console.log(err);
-  });
+    .catch((err) => {
+      console.log("something went wrong");
+      console.log(err);
+    });
 }
 
 function processManual(options) {
@@ -95,7 +98,13 @@ function processManual(options) {
           "GSTProperty",
           "GSTVirtualWebroot",
           new inquirer.Separator(),
+          "Page",
+          "PageFilter",
+          "GIA_Module",
+          new inquirer.Separator(),
           "SiteNavigation",
+          "AttrTypes",
+          "WebRoot",
           new inquirer.Separator(),
           "@ALL_ASSETS",
           "@ALL_NONASSETS",
@@ -118,13 +127,13 @@ function processManual(options) {
             type: "list",
             name: "allOrOne",
             choices: [
-              `a) Execute command '${options.command}' on '${options.assetType}:*'`,
-              `b) Execute command '${options.command}' on '${options.assetType}:<${options.idType}>'`,
+              `a) Execute command '${options.command}' on '${options.assetType}:<${options.idType}>'`,
+              `b) Execute command '${options.command}' on '${options.assetType}:*'`,
             ],
           },
         ])
         .then((selection) => {
-          if (selection.allOrOne.startsWith("a)")) {
+          if (selection.allOrOne.startsWith("b)")) {
             options.id = "*";
             confirmCommand(options);
           } else {
@@ -174,9 +183,25 @@ function confirmCommand(options) {
   // introduce validation of 'fw-uid' for import and 'cid' for export||listds||listcs
   let cmd;
   if (options.method.startsWith("Read")) {
-    cmd = `${(process.env.PATH_JDK_8) ? process.env.PATH_JDK_8 : 'java'}  -Dfile.encoding=UTF-8 -Xbootclasspath/a:lib/servlet-api.jar -jar ${process.env.PATH_DEV_TOOLS_COMMAND_LINE_JAR} http://${options.env}:80/sites/ContentServer username=${process.env.WCS_USERNAME} password=${process.env.WCS_PASSWORD} resources=${options.resources} cmd=${options.command} datastore=${process.env.WCS_DATASTORE}`;
+    cmd = `${
+      process.env.PATH_JDK_8 ? process.env.PATH_JDK_8 : "java"
+    }  -Dfile.encoding=UTF-8 -Xbootclasspath/a:lib/servlet-api.jar -jar ${
+      process.env.PATH_DEV_TOOLS_COMMAND_LINE_JAR
+    } http://${options.env}:80/sites/ContentServer username=${
+      process.env.WCS_USERNAME
+    } password=${process.env.WCS_PASSWORD} resources=${options.resources} cmd=${
+      options.command
+    } datastore=${process.env.WCS_DATASTORE}`;
   } else {
-    cmd = `${(process.env.PATH_JDK_8) ? process.env.PATH_JDK_8 : 'java'} -Dfile.encoding=UTF-8 -Xbootclasspath/a:lib/servlet-api.jar -jar ${process.env.PATH_DEV_TOOLS_COMMAND_LINE_JAR} http://${options.env}:80/sites/ContentServer username=${process.env.WCS_USERNAME} password=${process.env.WCS_PASSWORD} resources=${options.assetType}:${options.id} cmd=${options.command} datastore=${process.env.WCS_DATASTORE}`;
+    cmd = `${
+      process.env.PATH_JDK_8 ? process.env.PATH_JDK_8 : "java"
+    } -Dfile.encoding=UTF-8 -Xbootclasspath/a:lib/servlet-api.jar -jar ${
+      process.env.PATH_DEV_TOOLS_COMMAND_LINE_JAR
+    } http://${options.env}:80/sites/ContentServer username=${
+      process.env.WCS_USERNAME
+    } password=${process.env.WCS_PASSWORD} resources=${options.assetType}:${
+      options.id
+    } cmd=${options.command} datastore=${process.env.WCS_DATASTORE}`;
   }
 
   inquirer
